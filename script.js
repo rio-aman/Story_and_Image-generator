@@ -10,13 +10,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const storyOutput = document.getElementById("storyOutput");
   const limitMessage = document.getElementById("limitMessage");
 
+  console.log(form);
+  fetch("https://www.npmjs.com/package/@types/jsonwebtoken").then(
+    (response) => {
+      console.log(response);
+    }
+  );
+
   // Fetch data from JSON file
   fetch("storyData.json")
-      .then((response) => {
-          console.log(response)
-          response.json()
-      })
+    .then((response) => {
+      console.log(response);
+      response.json();
+    })
     .then((data) => {
+      console.log("data : ", data);
       genreSelect.value = data.genre;
       lengthSelect.value = data.length;
       nameInput.value = data.name;
@@ -41,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", (event) => {
     event.preventDefault(); // Prevent form from refreshing the page
 
+    console.log("111111111111");
     // Gather input data
     const genre = genreSelect.value;
     const length = lengthSelect.value;
@@ -49,9 +58,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const enemyPlace = enemyPlaceInput.value;
     const meetingPlace = meetingPlaceInput.value;
 
+    console.log("2222222222222222222222");
+
     // Call the AI API to generate a story
     generateStoryWithAI(genre, length, name, place, enemyPlace, meetingPlace)
       .then((story) => {
+        console.log("story : ", story);
         // Display the story on the page
         storyOutput.innerHTML = `<h2>Generated Story by Gemini AI</h2><p>${story}</p>`;
       })
@@ -70,19 +82,26 @@ document.addEventListener("DOMContentLoaded", () => {
     enemyPlace,
     meetingPlace
   ) {
-    const apiKey = process.env.AIzaSyCI1NL5htAgGL9dFHXBiReIkdH - S_PLZHA;
+    console.log(length, name, place, enemyPlace);
+    const apiKey = "AIzaSyCI1NL5htAgGL9dFHXBiReIkdH-S_PLZHA";
+
+    console.log("apiKey", apiKey);
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
 
-    const payload = {
-      prompt: {
-        genre: genre,
-        length: length,
-        name: name,
-        place: place,
-        enemy_place: enemyPlace,
-        meeting_place: meetingPlace,
-      },
-    };
+    console.log(apiUrl);
+       const payload = {
+         contents: [
+           {
+             parts: [
+               {
+                 text: `Generate a ${length} story in the ${genre} genre. The main character is ${name}, located in ${place}. They are up against their enemy from ${enemyPlace} and will meet in ${meetingPlace}.`,
+               },
+             ],
+           },
+         ],
+       };
+
+    console.log(payload);
 
     try {
       const response = await fetch(apiUrl, {
@@ -100,7 +119,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const data = await response.json();
-      return data?.story || "No story generated. Try again later.";
+
+      console.log(data?.candidates[0].content.parts[0].text);
+      return (
+        data?.candidates[0].content.parts[0].text ||
+        "No story generated. Try again later."
+      );
     } catch (error) {
       throw error;
     }
