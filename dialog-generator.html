@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dialog Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+</head>
+<body>
+    <div id="featureContainer">
+        <h1>Dialog Generator</h1>
+        <form id="dialogForm">
+            <label for="character1">Character 1 Name:</label>
+            <input type="text" id="character1" required>
+            <label for="dialog1">Character 1 Dialog:</label>
+            <textarea id="dialog1" required></textarea>
+            <label for="character2">Character 2 Name:</label>
+            <input type="text" id="character2" required>
+            <label for="dialog2">Character 2 Dialog:</label>
+            <textarea id="dialog2" required></textarea>
+            <button type="submit">Generate Dialog</button>
+        </form>
+        <div id="dialogOutput" class="output"></div>
+        <a href="index.html">Back to Home</a>
+    </div>
+    <script>
+        document.getElementById('dialogForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const character1 = document.getElementById('character1').value;
+            const dialog1 = document.getElementById('dialog1').value;
+            const character2 = document.getElementById('character2').value;
+            const dialog2 = document.getElementById('dialog2').value;
+
+            const fullDialog = `${character1}: ${dialog1}\n${character2}: ${dialog2}`;
+            document.getElementById('dialogOutput').innerHTML = `<h2>Your Dialog:</h2><p>${fullDialog.replace(/\n/g, "<br>")}</p>`;
+        });
+    </script>
+</body>
+</html>

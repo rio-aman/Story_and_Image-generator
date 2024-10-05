@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backstory Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+</head>
+<body>
+    <div id="featureContainer">
+        <h1>Backstory Generator</h1>
+        <form id="backstoryForm">
+            <label for="characterName">Character Name:</label>
+            <input type="text" id="characterName" required>
+            <label for="backstory">Character's Backstory:</label>
+            <textarea id="backstory" required></textarea>
+            <button type="submit">Generate Backstory</button>
+        </form>
+        <div id="backstoryOutput" class="output"></div>
+        <a href="index.html">Back to Home</a>
+    </div>
+    <script>
+        document.getElementById('backstoryForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const characterName = document.getElementById('characterName').value;
+            const backstory = document.getElementById('backstory').value;
+
+            const backstoryDescription = `${characterName}'s Backstory: ${backstory}`;
+            document.getElementById('backstoryOutput').innerHTML = `<h2>Your Backstory:</h2><p>${backstoryDescription}</p>`;
+        });
+    </script>
+</body>
+</html>
