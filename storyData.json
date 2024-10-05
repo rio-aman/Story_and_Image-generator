@@ -1,0 +1,62 @@
+{
+    "genres": [
+      {
+        "name": "Fantasy",
+        "description": "Stories set in magical or mystical worlds.",
+        "samplePlots": [
+          "A young hero must defeat a dark sorcerer to save the kingdom.",
+          "A dragon terrorizes a village, and only one person can tame it.",
+          "A magical artifact is stolen, and the balance of power shifts."
+        ],
+        "sampleCharacters": [
+          { "name": "Elara", "role": "Mage", "trait": "Wise and powerful" },
+          { "name": "Thorne", "role": "Warrior", "trait": "Brave but impulsive" },
+          { "name": "Lira", "role": "Thief", "trait": "Clever and quick" }
+        ],
+        "settings": [
+          "A mystical forest with talking trees",
+          "A floating castle above the clouds",
+          "A village on the edge of a dragon’s lair"
+        ]
+      },
+      {
+        "name": "Science Fiction",
+        "description": "Stories set in futuristic worlds or involving advanced technology.",
+        "samplePlots": [
+          "A spaceship crew discovers an alien civilization on the brink of extinction.",
+          "A rogue AI takes control of a mega-city and threatens humanity.",
+          "Scientists accidentally open a portal to a parallel universe."
+        ],
+        "sampleCharacters": [
+          { "name": "Nova", "role": "Captain", "trait": "Fearless and strategic" },
+          { "name": "Zeta", "role": "AI", "trait": "Logical but conflicted" },
+          { "name": "Rhea", "role": "Engineer", "trait": "Creative problem solver" }
+        ],
+        "settings": [
+          "A space station orbiting a distant planet",
+          "A post-apocalyptic Earth overrun by robots",
+          "A cyberpunk city where technology rules all"
+        ]
+      },
+      {
+        "name": "Mystery",
+        "description": "Stories centered around solving a crime or uncovering hidden truths.",
+        "samplePlots": [
+          "A detective must solve a murder where all the suspects have alibis.",
+          "An ancient artifact is stolen, and the clues point to a hidden society.",
+          "A small town is rocked by a series of strange disappearances."
+        ],
+        "sampleCharacters": [
+          { "name": "Detective Harper", "role": "Detective", "trait": "Observant and persistent" },
+          { "name": "Milo", "role": "Journalist", "trait": "Curious and determined" },
+          { "name": "Evelyn", "role": "Historian", "trait": "Knowledgeable and secretive" }
+        ],
+        "settings": [
+          "A fog-covered, isolated manor",
+          "An old library filled with ancient texts",
+          "A bustling city with a dark underbelly"
+        ]
+      }
+    ]
+  }
+  
