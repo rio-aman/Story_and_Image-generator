@@ -13,26 +13,84 @@
 
 </head>
 <body>
-    <div id="featureContainer">
-        <h1>Backstory Generator</h1>
+    <!-- Backstory Generator -->
+    <div class="generator">
+        <h2>Backstory Generator</h2>
         <form id="backstoryForm">
-            <label for="characterName">Character Name:</label>
-            <input type="text" id="characterName" required>
-            <label for="backstory">Character's Backstory:</label>
-            <textarea id="backstory" required></textarea>
-            <button type="submit">Generate Backstory</button>
+          <label for="character">Character Name:</label>
+          <input type="text" id="character" placeholder="Character Name" />
+          <label for="pastEvents">Past Events:</label>
+          <input type="text" id="pastEvents" placeholder="Significant Past Events" />
+          <button type="submit">Generate Backstory</button>
         </form>
         <div id="backstoryOutput" class="output"></div>
-        <a href="index.html">Back to Home</a>
-    </div>
-    <script>
-        document.getElementById('backstoryForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const characterName = document.getElementById('characterName').value;
-            const backstory = document.getElementById('backstory').value;
+      </div>
+      <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const backstoryForm = document.getElementById("backstoryForm");
+            const backstoryOutput = document.getElementById("backstoryOutput");
 
-            const backstoryDescription = `${characterName}'s Backstory: ${backstory}`;
-            document.getElementById('backstoryOutput').innerHTML = `<h2>Your Backstory:</h2><p>${backstoryDescription}</p>`;
+            // Event listener for form submission
+            backstoryForm.addEventListener("submit", (event) => {
+                event.preventDefault(); // Prevent form from refreshing the page
+
+                // Gather input data
+                const characterName = document.getElementById("character").value;
+                const pastEvents = document.getElementById("pastEvents").value;
+
+                // Generate backstory using AI
+                generateBackstoryWithAI(characterName, pastEvents)
+                    .then((backstory) => {
+                        // Display the generated backstory in the output div
+                        backstoryOutput.innerHTML = `<h2>Generated Backstory</h2><p>${backstory}</p>`;
+                    })
+                    .catch((error) => {
+                        // Display error if the generation fails
+                        backstoryOutput.innerHTML = `<p>Failed to generate backstory: ${error.message}</p>`;
+                    });
+            });
+
+            // Function to generate backstory using Gemini AI
+            async function generateBackstoryWithAI(characterName, pastEvents) {
+                const apiKey = "AIzaSyCI1NL5htAgGL9dFHXBiReIkdH-S_PLZHA"; // Your API key
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+
+                const prompt = `Generate a backstory for a character named ${characterName}. Include significant past events like ${pastEvents}. Make the backstory engaging and include important details about the character's life.`;
+
+                const payload = {
+                    contents: [
+                        {
+                            parts: [
+                                {
+                                    text: prompt,
+                                },
+                            ],
+                        },
+                    ],
+                };
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(payload),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API call failed: ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+                    return (
+                        data?.candidates[0]?.content?.parts[0]?.text ||
+                        "No backstory generated. Try again later."
+                    );
+                } catch (error) {
+                    throw error;
+                }
+            }
         });
     </script>
 </body>

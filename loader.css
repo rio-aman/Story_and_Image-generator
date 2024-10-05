@@ -1,0 +1,23 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f3f3f3; /* Light background for contrast */
+}
+
+.loader {
+    border: 8px solid #f3f3f3; /* Light color for background */
+    border-top: 8px solid #3498db; /* Blue color for the spinning part */
+    border-radius: 50%;
+    width: 60px; /* Width of the loader */
+    height: 60px; /* Height of the loader */
+    animation: spin 1s linear infinite; /* Animation properties */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

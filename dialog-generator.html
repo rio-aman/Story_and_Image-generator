@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,34 +13,95 @@
     <link rel="manifest" href="/site.webmanifest">
 
 </head>
+
 <body>
-    <div id="featureContainer">
-        <h1>Dialog Generator</h1>
-        <form id="dialogForm">
-            <label for="character1">Character 1 Name:</label>
-            <input type="text" id="character1" required>
-            <label for="dialog1">Character 1 Dialog:</label>
-            <textarea id="dialog1" required></textarea>
-            <label for="character2">Character 2 Name:</label>
-            <input type="text" id="character2" required>
-            <label for="dialog2">Character 2 Dialog:</label>
-            <textarea id="dialog2" required></textarea>
-            <button type="submit">Generate Dialog</button>
+    <!-- Dialogue Generator -->
+    <div class="generator">
+        <h2>Dialogue Generator</h2>
+        <form id="dialogueForm">
+            <label for="characters">Characters:</label>
+            <input type="text" id="characters" placeholder="Character Names" />
+            <label for="situation">Situation:</label>
+            <input type="text" id="situation" placeholder="What are they talking about?" />
+            <button type="submit">Generate Dialogue</button>
         </form>
-        <div id="dialogOutput" class="output"></div>
-        <a href="index.html">Back to Home</a>
+        <div id="dialogueOutput" class="output"></div>
     </div>
     <script>
-        document.getElementById('dialogForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const character1 = document.getElementById('character1').value;
-            const dialog1 = document.getElementById('dialog1').value;
-            const character2 = document.getElementById('character2').value;
-            const dialog2 = document.getElementById('dialog2').value;
-
-            const fullDialog = `${character1}: ${dialog1}\n${character2}: ${dialog2}`;
-            document.getElementById('dialogOutput').innerHTML = `<h2>Your Dialog:</h2><p>${fullDialog.replace(/\n/g, "<br>")}</p>`;
+        document.addEventListener("DOMContentLoaded", () => {
+            const dialogueForm = document.getElementById("dialogueForm");
+            const charactersInput = document.getElementById("characters");
+            const situationInput = document.getElementById("situation");
+            const dialogueOutput = document.getElementById("dialogueOutput");
+    
+            // Event listener for dialogue generation form
+            dialogueForm.addEventListener("submit", (event) => {
+                event.preventDefault(); // Prevent form from refreshing the page
+    
+                // Gather input data
+                const characters = charactersInput.value;
+                const situation = situationInput.value;
+    
+                // Call the AI API to generate a dialogue
+                generateDialogueWithAI(characters, situation)
+                    .then((dialogue) => {
+                        console.log("Generated dialogue: ", dialogue);
+                        // Display the generated dialogue
+                        dialogueOutput.innerHTML = `<h2>Generated Dialogue</h2><p>${dialogue}</p>`;
+                    })
+                    .catch((error) => {
+                        // Display an error message if the dialogue generation fails
+                        dialogueOutput.innerHTML = `<p>Failed to generate dialogue: ${error.message}</p>`;
+                    });
+            });
+    
+            // Function to call AI API for dialogue generation
+            async function generateDialogueWithAI(characters, situation) {
+                const apiKey = "AIzaSyCI1NL5htAgGL9dFHXBiReIkdH-S_PLZHA"; // Replace with your API key
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+    
+                // Generate the payload for the API request
+                const payload = generateDialogue(characters, situation); // Call the function here
+    
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(payload),
+                    });
+    
+                    if (!response.ok) {
+                        throw new Error(`API call failed: ${response.statusText}`);
+                    }
+    
+                    const data = await response.json();
+                    return (
+                        data?.candidates[0]?.content.parts[0]?.text ||
+                        "No dialogue generated. Try again later."
+                    );
+                } catch (error) {
+                    throw error;
+                }
+            }
+    
+            // Function to create the payload for dialogue generation
+            function generateDialogue(characters, situation) {
+                return {
+                    contents: [
+                        {
+                            parts: [
+                                {
+                                    text: `Generate a dialogue between ${characters} in the following situation: ${situation}.`,
+                                },
+                            ],
+                        },
+                    ],
+                };
+            }
         });
     </script>
+    
 </body>
 </html>

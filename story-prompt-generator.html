@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fantasy Story Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+</head>
+
+<body>
+    <!-- Story Prompt Generator -->
+    <div class="generator">
+        <h2>Story Prompt Generator</h2>
+        <form id="promptForm">
+            <label for="promptGenre">Genre:</label>
+            <input type="text" id="promptGenre" placeholder="e.g., Horror, Romance" />
+            <button type="submit">Generate Prompt</button>
+        </form>
+        <div id="promptOutput" class="output"></div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const promptForm = document.getElementById("promptForm");
+            const promptGenreInput = document.getElementById("promptGenre");
+            const promptOutput = document.getElementById("promptOutput");
+
+            // When the form is submitted
+            promptForm.addEventListener("submit", (event) => {
+                event.preventDefault(); // Prevent form from refreshing the page
+
+                const genre = promptGenreInput.value;
+
+                // Call the AI API to generate a story prompt
+                generateStoryPromptWithAI(genre)
+                    .then((prompt) => {
+                        // Display the prompt on the page
+                        promptOutput.innerHTML = `<h2>Generated Story Prompt</h2><p>${prompt}</p>`;
+                    })
+                    .catch((error) => {
+                        // Display an error message if the story prompt generation fails
+                        promptOutput.innerHTML = `<p>Failed to generate prompt: ${error.message}</p>`;
+                    });
+            });
+
+            // Function to call AI API for story prompt generation
+            async function generateStoryPromptWithAI(genre) {
+                const apiKey = "AIzaSyCI1NL5htAgGL9dFHXBiReIkdH-S_PLZHA"; // Replace with your Gemini AI API key
+
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+
+                // Create the payload to send to the AI model
+                const payload = generateStoryPrompt(genre); // Call the generateStoryPrompt function
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(payload),
+                    });
+
+                    // Check if the API request was successful
+                    if (!response.ok) {
+                        throw new Error(`API call failed: ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+
+                    // Extract and return the generated prompt
+                    return (
+                        data?.candidates[0].content.parts[0].text ||
+                        "No prompt generated. Try again later."
+                    );
+                } catch (error) {
+                    throw error;
+                }
+            }
+
+            // Function to create the payload for generating the story prompt
+            function generateStoryPrompt(genre) {
+                return {
+                    contents: [
+                        {
+                            parts: [
+                                {
+                                    text: `Generate a writing prompt for a story in the ${genre} genre.`,
+                                },
+                            ],
+                        },
+                    ],
+                };
+            }
+        });
+    </script>
+
+</body>
+
+</html>

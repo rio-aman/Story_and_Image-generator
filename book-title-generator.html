@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Title Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+</head>
+
+<body>
+
+    <!-- Book Title Generator -->
+    <div class="generator">
+        <h2>Book Title Generator</h2>
+        <form id="titleForm">
+            <label for="bookGenre">Genre:</label>
+            <input type="text" id="bookGenre" placeholder="e.g., Fantasy, Thriller" />
+            <button type="submit">Generate Book Title</button>
+        </form>
+        <div id="titleOutput" class="output"></div>
+    </div>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const titleForm = document.getElementById("titleForm");
+            const bookGenreInput = document.getElementById("bookGenre");
+            const titleOutput = document.getElementById("titleOutput");
+
+            // Event listener for form submission
+            titleForm.addEventListener("submit", (event) => {
+                event.preventDefault(); // Prevent form from refreshing the page
+
+                // Get the input data
+                const bookGenre = bookGenreInput.value;
+
+                // Generate the title using Gemini AI
+                generateBookTitleWithAI(bookGenre)
+                    .then((title) => {
+                        titleOutput.innerHTML = `<h2>Generated Book Title</h2><p>${title}</p>`;
+                    })
+                    .catch((error) => {
+                        titleOutput.innerHTML = `<p>Failed to generate title: ${error.message}</p>`;
+                    });
+            });
+
+            // Function to call AI API for title generation
+            async function generateBookTitleWithAI(bookGenre) {
+                const apiKey = "AIzaSyCI1NL5htAgGL9dFHXBiReIkdH-S_PLZHA"; // Replace with your actual API key
+
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+
+                const payload = {
+                    contents: [
+                        {
+                            parts: [
+                                {
+                                    text: `Generate a creative book title for a ${bookGenre} genre.`,
+                                },
+                            ],
+                        },
+                    ],
+                };
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(payload),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API call failed: ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+
+                    return (
+                        data?.candidates[0]?.content?.parts[0]?.text || "No title generated. Try again later."
+                    );
+                } catch (error) {
+                    throw error;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
+</body>
+
+</html>

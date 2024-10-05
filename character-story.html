@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Profile Generator</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+</head>
+
+<body>
+    <!-- Character Profile Generator -->
+    <div class="generator">
+        <h2>Character Profile Generator</h2>
+        <form id="profileForm">
+            <label for="profileName">Character Name:</label>
+            <input type="text" id="profileName" placeholder="Character Name" required />
+            <label for="age">Age:</label>
+            <input type="text" id="age" placeholder="Age" required />
+            <label for="occupation">Occupation:</label>
+            <input type="text" id="occupation" placeholder="Occupation" required />
+            <label for="personality">Personality:</label>
+            <input type="text" id="personality" placeholder="Personality Traits" required />
+            <button type="submit">Generate Profile</button>
+        </form>
+        <div id="profileOutput" class="output"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Get the form and output elements
+            const profileForm = document.getElementById("profileForm");
+            const profileOutput = document.getElementById("profileOutput");
+
+            // When the form is submitted
+            profileForm.addEventListener("submit", async (event) => {
+                event.preventDefault(); // Prevent the form from refreshing the page
+
+                // Gather input data from the form
+                const characterName = document.getElementById("profileName").value;
+                const age = document.getElementById("age").value;
+                const occupation = document.getElementById("occupation").value;
+                const personality = document.getElementById("personality").value;
+
+                // Call AI API to generate character story
+                generateCharacterProfile(characterName, age, occupation, personality)
+                    .then((profile) => {
+                        // Display the generated profile
+                        profileOutput.innerHTML = `<h2>Generated Character Profile</h2><p>${profile}</p>`;
+                    })
+                    .catch((error) => {
+                        // Display an error message if the generation fails
+                        profileOutput.innerHTML = `<p>Failed to generate character profile: ${error.message}</p>`;
+                    });
+            });
+
+            // Function to call AI API for character profile generation
+            async function generateCharacterProfile(name, age, occupation, personality) {
+                const apiKey = "AIzaSyCI1NL5htAgGL9dFHXBiReIkdH-S_PLZHA"; // Replace with your API key
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+
+                const payload = {
+                    contents: [
+                        {
+                            parts: [
+                                {
+                                    text: `Generate a character profile for a character named ${name}. They are ${age} years old, work as a ${occupation}, and have the following personality traits: ${personality}.`,
+                                },
+                            ],
+                        },
+                    ],
+                };
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(payload),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API call failed: ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+                    return (
+                        data?.candidates[0].content.parts[0].text ||
+                        "No character profile generated. Try again later."
+                    );
+                } catch (error) {
+                    throw error;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

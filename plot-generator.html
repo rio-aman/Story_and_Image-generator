@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plot Generator</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="style.css">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -12,28 +12,99 @@
     <link rel="manifest" href="/site.webmanifest">
 
 </head>
+
 <body>
-    <div id="featureContainer">
-        <h1>Plot Generator</h1>
+    <!-- Plot Generator -->
+    <div class="generator">
+        <h2>Plot Generator</h2>
         <form id="plotForm">
-            <label for="conflict">Main Conflict:</label>
-            <textarea id="conflict" required></textarea>
-            <label for="resolution">Resolution:</label>
-            <textarea id="resolution" required></textarea>
+            <label for="plotGenre">Genre:</label>
+            <input type="text" id="plotGenre" placeholder="e.g., Mystery, Sci-Fi" />
+            <label for="plotLength">Length:</label>
+            <select id="plotLength">
+                <option value="short">Short</option>
+                <option value="medium">Medium</option>
+                <option value="long">Long</option>
+            </select>
             <button type="submit">Generate Plot</button>
         </form>
         <div id="plotOutput" class="output"></div>
-        <a href="index.html">Back to Home</a>
     </div>
     <script>
-        document.getElementById('plotForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const conflict = document.getElementById('conflict').value;
-            const resolution = document.getElementById('resolution').value;
+    document.addEventListener("DOMContentLoaded", () => {
+        const plotForm = document.getElementById("plotForm");
+        const plotOutput = document.getElementById("plotOutput");
 
-            const plotDescription = `Conflict: ${conflict}\nResolution: ${resolution}`;
-            document.getElementById('plotOutput').innerHTML = `<h2>Your Plot:</h2><p>${plotDescription.replace(/\n/g, "<br>")}</p>`;
+        // Handle form submission for Plot Generator
+        plotForm.addEventListener("submit", (event) => {
+            event.preventDefault(); // Prevent form from refreshing the page
+
+            // Gather input data
+            const plotGenre = document.getElementById("plotGenre").value;
+            const plotLength = document.getElementById("plotLength").value;
+
+            // Call AI API to generate plot
+            generatePlotWithAI(plotGenre, plotLength)
+                .then((plot) => {
+                    // Display the generated plot
+                    plotOutput.innerHTML = `<h2>Generated Plot</h2><p>${plot}</p>`;
+                })
+                .catch((error) => {
+                    // Display error if something goes wrong
+                    plotOutput.innerHTML = `<p>Failed to generate plot: ${error.message}</p>`;
+                });
         });
-    </script>
+
+        // Function to call AI API for plot generation
+        async function generatePlotWithAI(genre, length) {
+            const apiKey = "AIzaSyCI1NL5htAgGL9dFHXBiReIkdH-S_PLZHA"; // Replace with your API key
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+
+            // Define the prompt structure for generating a plot
+            const payload = generatePlot(genre, length); // Call the generatePlot function here
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API call failed: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+
+                // Extract and return the generated plot from the response
+                return (
+                    data?.candidates[0].content.parts[0].text ||
+                    "No plot generated. Try again later."
+                );
+            } catch (error) {
+                throw error;
+            }
+        }
+
+        // Function to define the payload for generating the plot
+        function generatePlot(genre, length) {
+            return {
+                contents: [
+                    {
+                        parts: [
+                            {
+                                text: `Generate a ${length} plot in the ${genre} genre.`,
+                            },
+                        ],
+                    },
+                ],
+            };
+        }
+    });
+</script>
+
 </body>
 </html>

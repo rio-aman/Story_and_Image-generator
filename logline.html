@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plot Generator</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+</head>
+
+<body>
+  <!-- Logline Generator -->
+  <div class="generator">
+    <h2>Logline Generator</h2>
+    <form id="loglineForm">
+      <label for="loglineGenre">Genre:</label>
+      <input type="text" id="loglineGenre" placeholder="e.g., Action, Drama" />
+      <label for="mainConflict">Main Conflict:</label>
+      <input type="text" id="mainConflict" placeholder="Main Conflict" />
+      <button type="submit">Generate Logline</button>
+    </form>
+    <div id="loglineOutput" class="output"></div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const loglineForm = document.getElementById("loglineForm");
+      const loglineGenreInput = document.getElementById("loglineGenre");
+      const mainConflictInput = document.getElementById("mainConflict");
+      const loglineOutput = document.getElementById("loglineOutput");
+
+      // Handle form submission
+      loglineForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const genre = loglineGenreInput.value;
+        const mainConflict = mainConflictInput.value;
+
+        // Call Gemini AI to generate logline
+        generateLoglineWithAI(genre, mainConflict)
+          .then((logline) => {
+            // Display the generated logline
+            loglineOutput.innerHTML = `<h2>Generated Logline</h2><p>${logline}</p>`;
+          })
+          .catch((error) => {
+            loglineOutput.innerHTML = `<p>Error generating logline: ${error.message}</p>`;
+          });
+      });
+
+      // Function to call Gemini AI API for logline generation
+      async function generateLoglineWithAI(genre, mainConflict) {
+        const apiKey = "AIzaSyCI1NL5htAgGL9dFHXBiReIkdH-S_PLZHA"; // Replace with your actual API key
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+
+        // Define the payload for the AI request
+        const payload = {
+          contents: [
+            {
+              parts: [
+                {
+                  text: `Generate a logline for a ${genre} story. The main conflict is: ${mainConflict}.`,
+                },
+              ],
+            },
+          ],
+        };
+
+        try {
+          const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          });
+
+          if (!response.ok) {
+            throw new Error(`API call failed: ${response.statusText}`);
+          }
+
+          const data = await response.json();
+
+          return (
+            data?.candidates[0].content.parts[0].text ||
+            "No logline generated. Please try again later."
+          );
+        } catch (error) {
+          throw new Error("Error generating logline: " + error.message);
+        }
+      }
+    });
+
+  </script>
+</body>
+
+</html>

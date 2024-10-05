@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", (event) => {
     event.preventDefault(); // Prevent form from refreshing the page
 
-    console.log("111111111111");
+   
     // Gather input data
     const genre = genreSelect.value;
     const length = lengthSelect.value;
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const enemyPlace = enemyPlaceInput.value;
     const meetingPlace = meetingPlaceInput.value;
 
-    console.log("2222222222222222222222");
+    
 
     // Call the AI API to generate a story
     generateStoryWithAI(genre, length, name, place, enemyPlace, meetingPlace)
@@ -82,13 +82,12 @@ document.addEventListener("DOMContentLoaded", () => {
     enemyPlace,
     meetingPlace
   ) {
-    console.log(length, name, place, enemyPlace);
     const apiKey = "AIzaSyCI1NL5htAgGL9dFHXBiReIkdH-S_PLZHA";
 
-    console.log("apiKey", apiKey);
+    // true 
+    
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
 
-    console.log(apiUrl);
        const payload = {
          contents: [
            {
@@ -101,8 +100,8 @@ document.addEventListener("DOMContentLoaded", () => {
          ],
        };
 
-    console.log(payload);
-
+    
+// false 
     try {
       const response = await fetch(apiUrl, {
         method: "POST",
@@ -112,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify(payload),
       });
 
-      console.log("response : ", response);
+      
 
       if (!response.ok) {
         throw new Error(`API call failed: ${response.statusText}`);
@@ -120,7 +119,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const data = await response.json();
 
-      console.log(data?.candidates[0].content.parts[0].text);
+    //   console.log(data)
+      
       return (
         data?.candidates[0].content.parts[0].text ||
         "No story generated. Try again later."
