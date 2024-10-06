@@ -12,16 +12,24 @@
     <link rel="manifest" href="/site.webmanifest">
     <link rel="script" href="script.js">
 
-
     <style>
         .hidden {
             display: none;
         }
 
-        .with-padding {
-            margin: 20px;
-            padding: 20px;
-            background-color: red;
+        .loader {
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 50px; /* Loader size */
+            height: 50px; /* Loader size */
+            animation: spin 1s linear infinite;
+            margin: 20px auto; /* Center the loader */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -119,10 +127,15 @@
 
             <!-- Area where the generated story will be displayed -->
             <label>
-                <div id="storyOutput" class="hidden with-padding"></div>
+                <div id="loadingMessage" class="hidden">
+                    <div class="loader" id="loader"></div>
+
+                </div>
+                <div id="storyOutput" class="hidden"></div>
             </label>
         </div>
         <script src="script.js"></script>
+    </div>
 </body>
 
 </html>

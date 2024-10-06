@@ -74,11 +74,16 @@
 
                     const data = await response.json();
 
-                    // Extract and return the generated prompt
-                    return (
-                        data?.candidates[0].content.parts[0].text ||
-                        "No prompt generated. Try again later."
-                    );
+                    // Check if candidates are present and have content
+                    if (data.candidates && data.candidates.length > 0 && 
+                        data.candidates[0].content && 
+                        data.candidates[0].content.parts && 
+                        data.candidates[0].content.parts.length > 0) {
+                        // Extract and return the generated prompt
+                        return data.candidates[0].content.parts[0].text;
+                    } else {
+                        throw new Error("No prompt generated. Try again later.");
+                    }
                 } catch (error) {
                     throw error;
                 }

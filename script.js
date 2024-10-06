@@ -12,9 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   console.log(form);
 
-  // Initially remove padding/margin
-  form.classList.remove("with-padding");
-  
+
 
   // Fetch data from JSON file
   fetch("storyData.json")
@@ -24,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .then((data) => {
       console.log("data : ", data);
-      genreSelect.value = data.genre || "" ;
+      genreSelect.value = data.genre || "";
       lengthSelect.value = data.length || "";
       nameInput.value = data.name || "";
       placeInput.value = data.place || "";
@@ -35,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Display additional input for "Romance" genre
   genreSelect.addEventListener("change", () => {
-    console.log("1111111111111111111111111111")
+    
     if (genreSelect.value === "romance") {
       meetingPlaceInput.classList.remove("hidden");
       meetingLabel.classList.remove("hidden");
@@ -43,16 +41,18 @@ document.addEventListener("DOMContentLoaded", () => {
       meetingPlaceInput.classList.add("hidden");
       meetingLabel.classList.add("hidden");
     }
-    console.log("222222222222222222222222222")
+    
   });
 
   // Generate story when form is submitted
   form.addEventListener("submit", (event) => {
     event.preventDefault(); // Prevent form from refreshing the page
 
-    // Hide story output initially
+    // Hide story output initially and show loading message
     storyOutput.classList.add("hidden");
+    loadingMessage.classList.remove("hidden"); // Show loading message
     form.classList.remove("with-padding");
+
 
     // Gather input data
     const genre = genreSelect.value;
@@ -62,72 +62,76 @@ document.addEventListener("DOMContentLoaded", () => {
     const enemyPlace = enemyPlaceInput.value;
     const meetingPlace = meetingPlaceInput.value;
 
-    
+
 
     // Call the AI API to generate a story
     generateStoryWithAI(genre, length, name, place, enemyPlace, meetingPlace)
       .then((story) => {
-        console.log("story : ", story);
+        // Hide loading message
+        loadingMessage.classList.add("hidden");
+
         // Display the story on the page
-        // console.log(!story)
-        if (story) {
+        if (story && story.trim()) {
           storyOutput.innerHTML = `<h2>Generated Story by Gemini AI</h2><p>${story}</p>`;
           // Show the story output div when the story is generated
           storyOutput.classList.remove("hidden");
           form.classList.add("with-padding"); // Add padding/margin when data exists
-      
         } else {
-          storyOutput.innerHTML = '<h1>Loading......................... </h1>';
+          storyOutput.innerHTML = '<h1>No story generated. Try again later.</h1>';
+          form.classList.remove("with-padding"); // Keep padding/margin removed when no story exists
         }
       })
       .catch((error) => {
+        // Hide loading message
+        loadingMessage.classList.add("hidden");
+
         // Display an error message if the story generation fails
         storyOutput.innerHTML = `<p>Failed to generate story: ${error.message}</p>`;
         storyOutput.classList.remove("hidden");
-
+        form.classList.remove("with-padding"); // Remove padding/margin when there's an error
       });
   });
 
   // Function to call AI API for story generation
-async function generateStoryWithAI(genre, length, name, place, enemyPlace, meetingPlace) {
-  const apiKey = "AIzaSyCI1NL5htAgGL9dFHXBiReIkdH-S_PLZHA";
-  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+  async function generateStoryWithAI(genre, length, name, place, enemyPlace, meetingPlace) {
+    const apiKey = "AIzaSyCI1NL5htAgGL9dFHXBiReIkdH-S_PLZHA";
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
 
-  const payload = {
-    contents: [
-      {
-        parts: [
-          {
-            text: `Generate a ${length} story in the ${genre} genre. The main character is ${name}, located in ${place}. They are up against their enemy from ${enemyPlace} and will meet in ${meetingPlace}.`,
-          },
-        ],
-      },
-    ],
-  };
+    const payload = {
+      contents: [
+        {
+          parts: [
+            {
+              text: `Generate a ${length} story in the ${genre} genre. The main character is ${name}, located in ${place}. They are up against their enemy from ${enemyPlace} and will meet in ${meetingPlace}.`,
+            },
+          ],
+        },
+      ],
+    };
 
-  try {
-    const response = await fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
+    try {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
-    if (!response.ok) {
-      throw new Error(`API call failed: ${response.statusText}`);
+      if (!response.ok) {
+        throw new Error(`API call failed: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log("API response:", data);
+
+      // Ensure you log or check the exact structure of the response
+      return data?.candidates?.[0]?.content?.parts?.[0]?.text || "No story generated. Try again later.";
+    } catch (error) {
+      console.error("Error:", error);
+      throw error;
     }
-
-    const data = await response.json();
-    console.log("API response:", data);
-
-    // Ensure you log or check the exact structure of the response
-    return data?.candidates?.[0]?.content?.parts?.[0]?.text || "No story generated. Try again later.";
-  } catch (error) {
-    console.error("Error:", error);
-    throw error;
   }
-}
 
 });
 
