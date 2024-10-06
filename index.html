@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,22 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
+    <link rel="script" href="script.js">
+
+
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        .with-padding {
+            margin: 20px;
+            padding: 20px;
+            background-color: red;
+        }
+    </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Story Generator</h1>
@@ -19,6 +34,7 @@
         <form id="storyForm">
             <label for="genre"><b>Choose a Genre</b></label>
             <select id="genre">
+                <option value="">Select your favourite genre</option>
                 <option value="fantasy">Fantasy</option>
                 <option value="horror">Horror</option>
                 <option value="romance">Romance</option>
@@ -29,6 +45,7 @@
 
             <label for="length"><b>Choose Story Length</b></label>
             <select id="length">
+                <option value="">Select length of story</option>
                 <option value="short">Short</option>
                 <option value="medium">Medium</option>
                 <option value="long">Long</option>
@@ -45,15 +62,15 @@
 
             <label for="meeting_place" id="meeting_label" class="hidden">Love Interest Name (Romance):</label>
             <input type="text" id="meeting_place" class="hidden" placeholder="Enter love interest's name">
+            <label><button type="submit" id="generateButton"><b>Generate Story</b></button></label>
 
-            <label><button type="submit" id="generateButton"><b>Generate Story</b></button></label>            
         </form>
         <label>
             <div class="d-block card-header category-box text-start bg-toolbaz text-white">
                 <h3 class="card-title">Story & Book Writer Tools</h3>
             </div>
         </label>
-        
+
         <div class="card mb-3">
             <div class="card-body pb-0">
                 <div class="row">
@@ -92,28 +109,20 @@
                             <b>Metaphor Generator</b>
                         </a>
                     </div>
-                    <div class="col-12 col-md-6 col-lg-4 mb-3">
-                        <a class="item-box" href="logline.html">
-                            <b>Logline Generator</b>
-                        </a>
-                    
                 </div>
             </div>
+
+            <!-- Message when the story limit is reached -->
+            <div id="limitMessage" class="hidden">
+                <p>You have reached the story creation limit. Please try again later.</p>
+            </div>
+
+            <!-- Area where the generated story will be displayed -->
+            <label>
+                <div id="storyOutput" class="hidden with-padding"></div>
+            </label>
         </div>
-
-        <!-- Message when the story limit is reached -->
-        <div id="limitMessage" class="hidden">
-            <p>You have reached the story creation limit. Please try again later.</p>
-        </div>
-
-        <!-- Area where the generated story will be displayed -->
-        <div id="storyOutput"></div>
-    </div>
-    <div class=list-group-item>
-        <div class="row align-items-center">
-            
-    </div>
-
-    <script src="script.js"></script>
+        <script src="script.js"></script>
 </body>
+
 </html>

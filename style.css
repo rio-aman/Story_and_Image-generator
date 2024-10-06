@@ -8,7 +8,7 @@ body {
 .container {
     max-width: 800px;
     margin: 0 auto;
-    background: #fff;
+    background: rgb(122, 249, 149);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -16,7 +16,7 @@ body {
 
 h1 {
     text-align: center;
-    color: #ff0800;
+    color: #fc0000;
 }
 
 form {
@@ -29,9 +29,9 @@ label {
 }
 
 input[type="text"], select {
-    width: 100%;
+    width: 98%;
     padding: 8px;
-    margin: 5px 0;
+    margin: 4px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
@@ -76,13 +76,13 @@ button:hover {
 }
 
 .item-box {
-    display: block;
+    display: list-item;
     padding: 30px;
     border-radius: 10px;
-    background-color: #e7f1ff;
+    background-color: #f6f7d8;
     text-align: center;
     text-decoration: none;
-    color: #333;
+    color: #7b3df8;
     transition: background-color 0.2s, transform 0.2s;
 }
 
@@ -96,9 +96,79 @@ button:hover {
 }
 
 #storyOutput {
+    font-family: 'Lucida Sans Unicode';
+    color: black;
+    background: #f9f9f9;
+    display: inline-grid;
+}
+#plotOutput{
+    font-family: 'Lucida Sans Unicode';
+    color: black;
     margin-top: 20px;
-    border: 1px solid #ccc;
+    padding: 10px;
+    background: #f9f9f9;
+    display: inline-grid;
+
+}
+#promptOutput{
+    font-family: 'Lucida Sans Unicode';
+    
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 2px;
+    background: #f9f9f9;
+    display: grid;
+    
+}
+
+#metaphorOutput{
+    font-family: 'Lucida Sans Unicode';
+    margin-top: 20px;
     padding: 10px;
     border-radius: 4px;
     background: #f9f9f9;
+    display: grid;
+}
+
+#loglineOutput{
+    font-family: 'Lucida Sans Unicode';
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    background: #f9f9f9;
+    display: grid;
+}
+
+#dialogueOutput{
+    font-family: 'Lucida Sans Unicode';
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    background: #f9f9f9;
+    display: grid;
+}
+#profileOutput{
+    font-family: 'Lucida Sans Unicode';
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    background: #f9f9f9;
+    display: grid;
+}
+#titleOutput{
+    font-family: 'Lucida Sans Unicode';
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    background: #f9f9f9;
+    display: grid;
+}
+#backstoryOutput{
+    font-family: 'Lucida Sans Unicode';
+    
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    background: #f9f9f9;
+    display: grid;
 }
