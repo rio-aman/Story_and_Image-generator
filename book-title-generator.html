@@ -11,6 +11,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="loader.css">
 
 </head>
 
@@ -24,6 +25,9 @@
             <input type="text" id="bookGenre" placeholder="e.g., Fantasy, Thriller" />
             <button type="submit">Generate Book Title</button>
         </form>
+        <div id="loadingMessage" class="hidden">
+            <div class="loader" id="loader"></div>
+        </div>
         <div id="titleOutput" class="output"></div>
     </div>
 
@@ -38,15 +42,19 @@
             titleForm.addEventListener("submit", (event) => {
                 event.preventDefault(); // Prevent form from refreshing the page
 
+                loadingMessage.classList.remove("hidden");
                 // Get the input data
                 const bookGenre = bookGenreInput.value;
 
                 // Generate the title using Gemini AI
                 generateBookTitleWithAI(bookGenre)
                     .then((title) => {
+                        loadingMessage.classList.add("hidden");
+                        console.log(title);
                         titleOutput.innerHTML = `<h2>Generated Book Title</h2><p>${title}</p>`;
                     })
                     .catch((error) => {
+                        loadingMessage.classList.add("hidden");
                         titleOutput.innerHTML = `<p>Failed to generate title: ${error.message}</p>`;
                     });
             });

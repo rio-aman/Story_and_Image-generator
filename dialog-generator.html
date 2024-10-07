@@ -11,6 +11,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="loader.css">
 
 </head>
 
@@ -25,6 +26,9 @@
             <input type="text" id="situation" placeholder="What are they talking about?" />
             <button type="submit">Generate Dialogue</button>
         </form>
+        <div id="loadingMessage" class="hidden">
+            <div class="loader" id="loader"></div>
+        </div>
         <div id="dialogueOutput" class="output"></div>
     </div>
     <script>
@@ -37,7 +41,8 @@
             // Event listener for dialogue generation form
             dialogueForm.addEventListener("submit", (event) => {
                 event.preventDefault(); // Prevent form from refreshing the page
-    
+
+                loadingMessage.classList.remove("hidden");
                 // Gather input data
                 const characters = charactersInput.value;
                 const situation = situationInput.value;
@@ -45,11 +50,13 @@
                 // Call the AI API to generate a dialogue
                 generateDialogueWithAI(characters, situation)
                     .then((dialogue) => {
-                        console.log("Generated dialogue: ", dialogue);
+                        loadingMessage.classList.add("hidden");
+                        console.log(dialogue);
                         // Display the generated dialogue
                         dialogueOutput.innerHTML = `<h2>Generated Dialogue</h2><p>${dialogue}</p>`;
                     })
                     .catch((error) => {
+                        loadingMessage.classList.add("hidden");
                         // Display an error message if the dialogue generation fails
                         dialogueOutput.innerHTML = `<p>Failed to generate dialogue: ${error.message}</p>`;
                     });

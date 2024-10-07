@@ -74,6 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (story && story.trim()) {
           storyOutput.innerHTML = `<h2>Generated Story by Gemini AI</h2><p>${story}</p>`;
           // Show the story output div when the story is generated
+          console.log(story)
           storyOutput.classList.remove("hidden");
           form.classList.add("with-padding"); // Add padding/margin when data exists
         } else {

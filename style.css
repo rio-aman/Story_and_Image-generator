@@ -135,16 +135,6 @@ button:hover {
     display: grid;
 }
 
-#loglineOutput{
-    font-family: 'Lucida Sans Unicode';
-    color: rgb(255, 98, 0);
-    margin-top: 20px;
-    padding: 10px;
-    border-radius: 4px;
-    background: #c5f1f1;
-    display: grid;
-}
-
 #dialogueOutput{
     font-family: 'Lucida Sans Unicode';
     color: rgb(255, 98, 0);

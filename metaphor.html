@@ -10,6 +10,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="loader.css">
 </head>
 
 <body>
@@ -21,6 +22,9 @@
         <input type="text" id="theme" placeholder="Theme for the metaphor" required />
         <button type="submit">Generate Metaphor</button>
     </form>
+    <div id="loadingMessage" class="hidden">
+        <div class="loader" id="loader"></div>
+    </div>
     <div id="metaphorOutput" class="output"></div>
 </div>
 <script>
@@ -30,6 +34,7 @@
 
         metaphorForm.addEventListener("submit", async (event) => {
             event.preventDefault();
+            loadingMessage.classList.remove("hidden");
             const theme = document.getElementById("theme").value;
 
             if (!theme) {
@@ -39,8 +44,11 @@
 
             try {
                 const metaphor = await generateMetaphorWithAI(theme);
+                loadingMessage.classList.add("hidden");
+                console.log(metaphor)
                 metaphorOutput.innerHTML = `<h2>Generated Metaphor</h2><p>${metaphor}</p>`;
             } catch (error) {
+                loadingMessage.classList.add("hidden");
                 metaphorOutput.innerHTML = `<p>Failed to generate metaphor: ${error.message}</p>`;
             }
         });

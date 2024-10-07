@@ -10,6 +10,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="loader.css">
 
 </head>
 
@@ -28,6 +29,9 @@
             <input type="text" id="personality" placeholder="Personality Traits" required />
             <button type="submit">Generate Profile</button>
         </form>
+        <div id="loadingMessage" class="hidden">
+            <div class="loader" id="loader"></div>
+        </div>
         <div id="profileOutput" class="output"></div>
     </div>
 
@@ -41,6 +45,7 @@
             profileForm.addEventListener("submit", async (event) => {
                 event.preventDefault(); // Prevent the form from refreshing the page
 
+                loadingMessage.classList.remove("hidden");
                 // Gather input data from the form
                 const characterName = document.getElementById("profileName").value;
                 const age = document.getElementById("age").value;
@@ -50,10 +55,13 @@
                 // Call AI API to generate character story
                 generateCharacterProfile(characterName, age, occupation, personality)
                     .then((profile) => {
+                        loadingMessage.classList.add("hidden");
+                        console.log(profile);
                         // Display the generated profile
                         profileOutput.innerHTML = `<h2>Generated Character Profile</h2><p>${profile}</p>`;
                     })
                     .catch((error) => {
+                        loadingMessage.classList.add("hidden");
                         // Display an error message if the generation fails
                         profileOutput.innerHTML = `<p>Failed to generate character profile: ${error.message}</p>`;
                     });

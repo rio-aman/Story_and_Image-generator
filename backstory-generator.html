@@ -10,6 +10,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="loader.css">
 
 </head>
 <body>
@@ -23,6 +24,9 @@
           <input type="text" id="pastEvents" placeholder="Significant Past Events" />
           <button type="submit">Generate Backstory</button>
         </form>
+        <div id="loadingMessage" class="hidden">
+            <div class="loader" id="loader"></div>
+        </div>
         <div id="backstoryOutput" class="output"></div>
       </div>
       <script>
@@ -34,6 +38,7 @@
             backstoryForm.addEventListener("submit", (event) => {
                 event.preventDefault(); // Prevent form from refreshing the page
 
+                loadingMessage.classList.remove("hidden");
                 // Gather input data
                 const characterName = document.getElementById("character").value;
                 const pastEvents = document.getElementById("pastEvents").value;
@@ -41,10 +46,13 @@
                 // Generate backstory using AI
                 generateBackstoryWithAI(characterName, pastEvents)
                     .then((backstory) => {
+                        loadingMessage.classList.add("hidden");
+                        console.log(backstory)
                         // Display the generated backstory in the output div
                         backstoryOutput.innerHTML = `<h2>Generated Backstory</h2><p>${backstory}</p>`;
                     })
                     .catch((error) => {
+                        loadingMessage.classList.add("hidden");
                         // Display error if the generation fails
                         backstoryOutput.innerHTML = `<p>Failed to generate backstory: ${error.message}</p>`;
                     });

@@ -10,6 +10,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="loader.css">
 
 </head>
 
@@ -28,8 +29,12 @@
             </select>
             <button type="submit">Generate Plot</button>
         </form>
+        <div id="loadingMessage" class="hidden">
+            <div class="loader" id="loader"></div>
+        </div>
         <div id="plotOutput" class="output"></div>
     </div>
+    
     <script>
     document.addEventListener("DOMContentLoaded", () => {
         const plotForm = document.getElementById("plotForm");
@@ -39,6 +44,7 @@
         plotForm.addEventListener("submit", (event) => {
             event.preventDefault(); // Prevent form from refreshing the page
 
+            loadingMessage.classList.remove("hidden");
             // Gather input data
             const plotGenre = document.getElementById("plotGenre").value;
             const plotLength = document.getElementById("plotLength").value;
@@ -46,10 +52,13 @@
             // Call AI API to generate plot
             generatePlotWithAI(plotGenre, plotLength)
                 .then((plot) => {
+                    loadingMessage.classList.add("hidden");
+                    console.log(plot)
                     // Display the generated plot
                     plotOutput.innerHTML = `<h2>Generated Plot</h2><p>${plot}</p>`;
                 })
                 .catch((error) => {
+                    loadingMessage.classList.add("hidden");
                     // Display error if something goes wrong
                     plotOutput.innerHTML = `<p>Failed to generate plot: ${error.message}</p>`;
                 });
