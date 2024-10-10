@@ -49,12 +49,13 @@ button.addEventListener("click", async function () {
 
     image1.src = objectURL1; // Display the first image
     image2.src = objectURL2; // Display the second image
-
-    image1.height = 570;
-    image2.height = 570;
   } else {
     console.error("Failed to fetch one or both images.");
     image1.src = ""; // Clear the image sources if an error occurs
     image2.src = "";
   }
+});
+
+document.getElementById('resetBtn').addEventListener('click', function() {
+  document.getElementById('input').value = '';
 });

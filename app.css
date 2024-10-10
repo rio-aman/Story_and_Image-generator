@@ -35,10 +35,10 @@ input{
 }
 
 img{
-    width: 100%;
-    max-width: 600px;
+    width: 40%;
+    max-width: 350px;
     margin-top: 30px;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 .button-85 {
