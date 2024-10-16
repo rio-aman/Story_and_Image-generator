@@ -4,41 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Story Generator</title>
+    <title>MultiGen Studio</title>
     <link rel="stylesheet" href="style.css">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
-    <link rel="script" href="script.js">
-
     <style>
-        .hidden {
-            display: none;
-        }
+        /* Keyframe animation to slide and fade in */
+        @keyframes glow {
 
-        /* HTML: <div class="loader"></div> */
-        .loader {
-            width: 50px;
-            padding: 8px;
-            aspect-ratio: 1;
-            border-radius: 50%;
-            background: #281ebc;
-            --_m:
-                conic-gradient(#0000 10%, #000),
-                linear-gradient(#000 0 0) content-box;
-            -webkit-mask: var(--_m);
-            mask: var(--_m);
-            -webkit-mask-composite: source-out;
-            mask-composite: subtract;
-            animation: l3 1s infinite linear;
-            margin: 20px auto;
-        }
-
-        @keyframes l3 {
             to {
-                transform: rotate(1turn)
+                text-shadow: 0 0 30px crimson, 0 0 30px crimson;
             }
+        }
+
+        /* Styling for the heading */
+        h1 {
+            animation: glow 2s ease-in-out infinite alternate;
         }
     </style>
 </head>
@@ -46,52 +29,16 @@
 
 <body>
     <div class="container">
-        <h1>Story Generator</h1>
-
-        <!-- Form to capture user inputs -->
-        <form id="storyForm">
-            <label for="genre"><b>Choose a Genre</b></label>
-            <select id="genre">
-                <option value="">Select your favourite genre</option>
-                <option value="fantasy">Fantasy</option>
-                <option value="horror">Horror</option>
-                <option value="romance">Romance</option>
-                <option value="sci-fi">Sci-Fi</option>
-                <option value="mystery">Mystery</option>
-                <option value="adventure">Adventure</option>
-            </select>
-
-            <label for="length"><b>Choose Story Length</b></label>
-            <select id="length">
-                <option value="">Select length of story</option>
-                <option value="short">Short</option>
-                <option value="medium">Medium</option>
-                <option value="long">Long</option>
-            </select>
-
-            <label for="name"><b>Main Character's Name</b></label>
-            <input type="text" id="name" required placeholder="Enter character name">
-
-            <label for="place"><b>Place</b></label>
-            <input type="text" id="place" required placeholder="Enter place">
-
-            <label for="enemy_place"><b>Enemy's Place (Optional)</b></label>
-            <input type="text" id="enemy_place" placeholder="Enter enemy's place">
-
-            <label for="meeting_place" id="meeting_label" class="hidden">Love Interest Name (Romance):</label>
-            <input type="text" id="meeting_place" class="hidden" placeholder="Enter love interest's name">
-            <label><button type="submit" id="generateButton"><b>Generate Story</b></button></label>
-
-        </form>
-        <label>
-            <div class="d-block card-header category-box text-start bg-toolbaz text-white">
-                <h3 class="card-title">Story & Book Writer Tools</h3>
-            </div>
-        </label>
-
+        <h1 style="background-color: rgb(242, 244, 91);color: crimson; padding: 30px; font-size: 45px;"><b>MultiGen
+                Studio</b></h1>
         <div class="card mb-3">
             <div class="card-body pb-0">
                 <div class="row">
+                    <div class="col-12 col-md-6 col-lg-4 mb-3">
+                        <a class="item-box" href="story_generator.html">
+                            <b>Story Generator</b>
+                        </a>
+                    </div>
                     <div class="col-12 col-md-6 col-lg-4 mb-3">
                         <a class="item-box" href="character-profile.html">
                             <b>Character Profile Generator</b>
@@ -129,22 +76,7 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Message when the story limit is reached -->
-            <div id="limitMessage" class="hidden">
-                <p>You have reached the story creation limit. Please try again later.</p>
-            </div>
-
-            <!-- Area where the generated story will be displayed -->
-            <label>
-                <div id="loadingMessage" class="hidden">
-                    <div class="loader" id="loader"></div>
-
-                </div>
-                <div id="storyOutput" class="hidden"></div>
-            </label>
         </div>
-        <script src="script.js"></script>
     </div>
 </body>
 

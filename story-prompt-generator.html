@@ -4,33 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fantasy Story Generator</title>
+    <title>MultiGen Studio | Fantasy Story Generator</title>
     <link rel="stylesheet" href="style.css">
-
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <link rel="stylesheet" href="loader.css">
-
 </head>
 
 <body>
-    <!-- Story Prompt Generator -->
-    <div class="generator">
-        <h2>Story Prompt Generator</h2>
-        <form id="promptForm">
-            <label for="promptGenre">Genre:</label>
-            <input type="text" id="promptGenre" placeholder="e.g., Horror, Romance" />
-            <button type="submit">Generate Prompt</button>
-        </form>
-        <label>
-            <div id="loadingMessage" class="hidden">
-                <div class="loader" id="loader"></div>
-            </div>
-            <div id="promptOutput" class="output"></div>
-        </label>
+    <div class="container">
+        <!-- Story Prompt Generator -->
+        <div class="generator">
+            <h2 style="text-align: center;font-size: 35px;color:rgb(79, 6, 250);">STORY PROMPT GENERATOR</h2>
+            <form id="promptForm">
+                <label for="promptGenre">Genre:</label>
+                <input type="text" id="promptGenre" placeholder="e.g., Horror, Romance" />
+                <button type="submit">Generate Prompt</button>
+            </form>
+            <label>
+                <div id="loadingMessage" class="hidden">
+                    <div class="loader" id="loader"></div>
+                </div>
+                <div id="promptOutput" class="output"></div>
+            </label>
+        </div>
+        <a href="index.html" class="home-link">
+            <img src="home-icon.png" alt="Home" class="home-icon">
+        </a>
     </div>
+
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -47,7 +51,7 @@
 
                 if (genre === "") {
                     promptOutput.innerHTML = `<p>Please enter a genre.</p>`;
-                    
+
                     return;
                 }
 

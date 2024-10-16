@@ -4,35 +4,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Character Profile Generator</title>
+    <title>MultiGen Studio | Character Profile Generator</title>
     <link rel="stylesheet" href="style.css">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <link rel="stylesheet" href="loader.css">
-
 </head>
 
 <body>
-    <!-- Character Profile Generator -->
-    <div class="generator">
-        <h2>Character Profile Generator</h2>
-        <form id="profileForm">
-            <label for="profileName">Character Name:</label>
-            <input type="text" id="profileName" placeholder="Character Name" required />
-            <label for="age">Age:</label>
-            <input type="text" id="age" placeholder="Age" required />
-            <label for="occupation">Occupation:</label>
-            <input type="text" id="occupation" placeholder="Occupation" required />
-            <label for="personality">Personality:</label>
-            <input type="text" id="personality" placeholder="Personality Traits" required />
-            <button type="submit">Generate Profile</button>
-        </form>
-        <div id="loadingMessage" class="hidden">
-            <div class="loader" id="loader"></div>
+    <div class="container">
+        <!-- Character Profile Generator -->
+        <div class="generator">
+            <h2 style="text-align: center;font-size: 35px;color:rgb(79, 6, 250);">CHARACTER PROFILE GENERATOR</h2>
+            <form id="profileForm">
+                <label for="profileName">Character Name:</label>
+                <input type="text" id="profileName" placeholder="Character Name" required />
+                <label for="age">Age:</label>
+                <input type="text" id="age" placeholder="Age" required />
+                <label for="occupation">Occupation:</label>
+                <input type="text" id="occupation" placeholder="Occupation" required />
+                <label for="personality">Personality:</label>
+                <input type="text" id="personality" placeholder="Personality Traits" required />
+                <button type="submit">Generate Profile</button>
+            </form>
+            <div id="loadingMessage" class="hidden">
+                <div class="loader" id="loader"></div>
+            </div>
+            <div id="profileOutput" class="output"></div>
+            <a href="index.html" class="home-link">
+                <img src="home-icon.png" alt="Home" class="home-icon">
+            </a>
         </div>
-        <div id="profileOutput" class="output"></div>
     </div>
 
     <script>
@@ -109,4 +113,5 @@
         });
     </script>
 </body>
+
 </html>

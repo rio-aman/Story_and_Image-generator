@@ -1,12 +1,12 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #9191ed;
+    background-color: #a9a9f5;
     margin: 0;
     padding: 20px;
 }
 
 .container {
-    max-width: 1000px;
+    max-width: 2000px;
     margin: 0 auto;
     background: rgb(122, 249, 149);
     padding: 20px;
@@ -108,7 +108,7 @@ button:hover {
     margin-top: 20px;
     padding: 10px;
     border-radius: 4px;
-    background: #c5f1f1;
+    background: #eafaaa;
     display: grid;
 }
 #plotOutput{
@@ -117,7 +117,7 @@ button:hover {
     margin-top: 20px;
     padding: 10px;
     border-radius: 4px;
-    background: #c5f1f1;
+    background: #eafaaa;
     display: grid;
 
 }
@@ -127,7 +127,7 @@ button:hover {
     margin-top: 20px;
     padding: 10px;
     border-radius: 4px;
-    background: #c5f1f1;
+    background: #eafaaa;
     display: grid;
     
 }
@@ -138,7 +138,7 @@ button:hover {
     margin-top: 20px;
     padding: 10px;
     border-radius: 4px;
-    background: #c5f1f1;
+    background: #eafaaa;
     display: grid;
 }
 
@@ -148,7 +148,7 @@ button:hover {
     margin-top: 20px;
     padding: 10px;
     border-radius: 4px;
-    background: #c5f1f1;
+    background: #eafaaa;
     display: grid;
 }
 #profileOutput{
@@ -157,7 +157,7 @@ button:hover {
     margin-top: 20px;
     padding: 10px;
     border-radius: 4px;
-    background: #c5f1f1;
+    background: #eafaaa;
     display: grid;
 }
 #titleOutput{
@@ -166,7 +166,7 @@ button:hover {
     margin-top: 20px;
     padding: 10px;
     border-radius: 4px;
-    background: #c5f1f1;
+    background: #eafaaa;
     display: grid;
 }
 #backstoryOutput{
@@ -175,7 +175,17 @@ button:hover {
     margin-top: 20px;
     padding: 10px;
     border-radius: 4px;
-    background: #c5f1f1;
+    background: #eafaaa;
     display: grid;
 }
   
+.home-link {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 15px;
+}
+.home-icon {
+    width: 50px;
+    height: 50px;
+}

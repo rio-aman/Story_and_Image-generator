@@ -4,32 +4,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dialog Generator</title>
+    <title>MultiGen Studio | Dialog Generator</title>
     <link rel="stylesheet" href="style.css">
-    
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <link rel="stylesheet" href="loader.css">
-
 </head>
 
 <body>
-    <!-- Dialogue Generator -->
-    <div class="generator">
-        <h2>Dialogue Generator</h2>
-        <form id="dialogueForm">
-            <label for="characters">Characters:</label>
-            <input type="text" id="characters" placeholder="Character Names" />
-            <label for="situation">Situation:</label>
-            <input type="text" id="situation" placeholder="What are they talking about?" />
-            <button type="submit">Generate Dialogue</button>
-        </form>
-        <div id="loadingMessage" class="hidden">
-            <div class="loader" id="loader"></div>
+    <div class="container">
+        <!-- Dialogue Generator -->
+        <div class="generator">
+            <h2 style="text-align: center;font-size: 35px;color:rgb(79, 6, 250);">DIALOGUE GENERATOR</h2>
+            <form id="dialogueForm">
+                <label for="characters">Characters:</label>
+                <input type="text" id="characters" placeholder="Character Names" />
+                <label for="situation">Situation:</label>
+                <input type="text" id="situation" placeholder="What are they talking about?" />
+                <button type="submit">Generate Dialogue</button>
+            </form>
+            <div id="loadingMessage" class="hidden">
+                <div class="loader" id="loader"></div>
+            </div>
+            <div id="dialogueOutput" class="output"></div>
+            <a href="index.html" class="home-link">
+                <img src="home-icon.png" alt="Home" class="home-icon">
+            </a>
         </div>
-        <div id="dialogueOutput" class="output"></div>
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", () => {

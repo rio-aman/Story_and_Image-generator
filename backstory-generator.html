@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Backstory Generator</title>
+    <title>MultiGen Studio | Backstory Generator</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="style.css">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -11,25 +12,30 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <link rel="stylesheet" href="loader.css">
-
 </head>
+
 <body>
-    <!-- Backstory Generator -->
-    <div class="generator">
-        <h2>Backstory Generator</h2>
-        <form id="backstoryForm">
-          <label for="character">Character Name:</label>
-          <input type="text" id="character" placeholder="Character Name" />
-          <label for="pastEvents">Past Events:</label>
-          <input type="text" id="pastEvents" placeholder="Significant Past Events" />
-          <button type="submit">Generate Backstory</button>
-        </form>
-        <div id="loadingMessage" class="hidden">
-            <div class="loader" id="loader"></div>
+    <div class="container">
+        <!-- Backstory Generator -->
+        <div class="generator">
+            <h2 style="text-align: center;font-size: 35px;color:rgb(79, 6, 250);">BACKSTORY GENERATOR</h2>
+            <form id="backstoryForm">
+                <label for="character">Character Name:</label>
+                <input type="text" id="character" placeholder="Character Name" />
+                <label for="pastEvents">Past Events:</label>
+                <input type="text" id="pastEvents" placeholder="Significant Past Events" />
+                <button type="submit">Generate Backstory</button>
+            </form>
+            <div id="loadingMessage" class="hidden">
+                <div class="loader" id="loader"></div>
+            </div>
+            <div id="backstoryOutput" class="output"></div>
+            <a href="index.html" class="home-link">
+                <img src="home-icon.png" alt="Home" class="home-icon">
+            </a>
         </div>
-        <div id="backstoryOutput" class="output"></div>
-      </div>
-      <script>
+    </div>
+    <script>
         document.addEventListener("DOMContentLoaded", () => {
             const backstoryForm = document.getElementById("backstoryForm");
             const backstoryOutput = document.getElementById("backstoryOutput");
@@ -102,4 +108,5 @@
         });
     </script>
 </body>
+
 </html>

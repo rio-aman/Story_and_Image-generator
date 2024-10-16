@@ -4,116 +4,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plot Generator</title>
+    <title>MultiGen Studio | Plot Generator</title>
     <link rel="stylesheet" href="style.css">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <link rel="stylesheet" href="loader.css">
-
 </head>
 
 <body>
-    <!-- Plot Generator -->
-    <div class="generator">
-        <h2>Plot Generator</h2>
-        <form id="plotForm">
-            <label for="plotGenre">Genre:</label>
-            <input type="text" id="plotGenre" placeholder="e.g., Mystery, Sci-Fi" />
-            <label for="plotLength">Length:</label>
-            <select id="plotLength">
-                <option value="short">Short</option>
-                <option value="medium">Medium</option>
-                <option value="long">Long</option>
-            </select>
-            <button type="submit">Generate Plot</button>
-        </form>
-        <div id="loadingMessage" class="hidden">
-            <div class="loader" id="loader"></div>
+    <div class="container">
+        <!-- Plot Generator -->
+        <div class="generator">
+            <h2 style="text-align: center;font-size: 35px;color:rgb(79, 6, 250);">PLOT GENERATOR</h2>
+            <form id="plotForm">
+                <label for="plotGenre">Genre:</label>
+                <input type="text" id="plotGenre" placeholder="e.g., Mystery, Sci-Fi" />
+                <label for="plotLength">Length:</label>
+                <select id="plotLength">
+                    <option value="short">Short</option>
+                    <option value="medium">Medium</option>
+                    <option value="long">Long</option>
+                </select>
+                <button type="submit">Generate Plot</button>
+            </form>
+            <div id="loadingMessage" class="hidden">
+                <div class="loader" id="loader"></div>
+            </div>
+            <div id="plotOutput" class="output"></div>
+            <a href="index.html" class="home-link">
+                <img src="home-icon.png" alt="Home" class="home-icon">
+            </a>
         </div>
-        <div id="plotOutput" class="output"></div>
     </div>
-    
+
     <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const plotForm = document.getElementById("plotForm");
-        const plotOutput = document.getElementById("plotOutput");
+        document.addEventListener("DOMContentLoaded", () => {
+            const plotForm = document.getElementById("plotForm");
+            const plotOutput = document.getElementById("plotOutput");
 
-        // Handle form submission for Plot Generator
-        plotForm.addEventListener("submit", (event) => {
-            event.preventDefault(); // Prevent form from refreshing the page
+            // Handle form submission for Plot Generator
+            plotForm.addEventListener("submit", (event) => {
+                event.preventDefault(); // Prevent form from refreshing the page
 
-            loadingMessage.classList.remove("hidden");
-            // Gather input data
-            const plotGenre = document.getElementById("plotGenre").value;
-            const plotLength = document.getElementById("plotLength").value;
+                loadingMessage.classList.remove("hidden");
+                // Gather input data
+                const plotGenre = document.getElementById("plotGenre").value;
+                const plotLength = document.getElementById("plotLength").value;
 
-            // Call AI API to generate plot
-            generatePlotWithAI(plotGenre, plotLength)
-                .then((plot) => {
-                    loadingMessage.classList.add("hidden");
-                    console.log(plot)
-                    // Display the generated plot
-                    plotOutput.innerHTML = `<h2>Generated Plot</h2><p>${plot}</p>`;
-                })
-                .catch((error) => {
-                    loadingMessage.classList.add("hidden");
-                    // Display error if something goes wrong
-                    plotOutput.innerHTML = `<p>Failed to generate plot: ${error.message}</p>`;
-                });
-        });
+                // Call AI API to generate plot
+                generatePlotWithAI(plotGenre, plotLength)
+                    .then((plot) => {
+                        loadingMessage.classList.add("hidden");
+                        console.log(plot)
+                        // Display the generated plot
+                        plotOutput.innerHTML = `<h2>Generated Plot</h2><p>${plot}</p>`;
+                    })
+                    .catch((error) => {
+                        loadingMessage.classList.add("hidden");
+                        // Display error if something goes wrong
+                        plotOutput.innerHTML = `<p>Failed to generate plot: ${error.message}</p>`;
+                    });
+            });
 
-        // Function to call AI API for plot generation
-        async function generatePlotWithAI(genre, length) {
-            const apiKey = "AIzaSyCI1NL5htAgGL9dFHXBiReIkdH-S_PLZHA"; // Replace with your API key
+            // Function to call AI API for plot generation
+            async function generatePlotWithAI(genre, length) {
+                const apiKey = "AIzaSyCI1NL5htAgGL9dFHXBiReIkdH-S_PLZHA"; // Replace with your API key
 
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
 
-            // Define the prompt structure for generating a plot
-            const payload = generatePlot(genre, length); // Call the generatePlot function here
+                // Define the prompt structure for generating a plot
+                const payload = generatePlot(genre, length); // Call the generatePlot function here
 
-            try {
-                const response = await fetch(apiUrl, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(payload),
-                });
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(payload),
+                    });
 
-                if (!response.ok) {
-                    throw new Error(`API call failed: ${response.statusText}`);
+                    if (!response.ok) {
+                        throw new Error(`API call failed: ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+
+                    // Extract and return the generated plot from the response
+                    return (
+                        data?.candidates[0].content.parts[0].text ||
+                        "No plot generated. Try again later."
+                    );
+                } catch (error) {
+                    throw error;
                 }
-
-                const data = await response.json();
-
-                // Extract and return the generated plot from the response
-                return (
-                    data?.candidates[0].content.parts[0].text ||
-                    "No plot generated. Try again later."
-                );
-            } catch (error) {
-                throw error;
             }
-        }
 
-        // Function to define the payload for generating the plot
-        function generatePlot(genre, length) {
-            return {
-                contents: [
-                    {
-                        parts: [
-                            {
-                                text: `Generate a ${length} plot in the ${genre} genre.`,
-                            },
-                        ],
-                    },
-                ],
-            };
-        }
-    });
-</script>
+            // Function to define the payload for generating the plot
+            function generatePlot(genre, length) {
+                return {
+                    contents: [
+                        {
+                            parts: [
+                                {
+                                    text: `Generate a ${length} plot in the ${genre} genre.`,
+                                },
+                            ],
+                        },
+                    ],
+                };
+            }
+        });
+    </script>
 
 </body>
+
 </html>
