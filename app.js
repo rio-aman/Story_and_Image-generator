@@ -37,9 +37,12 @@ button.addEventListener("click", async function () {
 
   // Fetch and display two different images using the same model ID but different prompts
   const modelId = "black-forest-labs/FLUX.1-schnell"; // The same model ID for both
-  const prompt1 = inputTxt.value + " variation 1"; // Slightly modify the input to create variation
-  const prompt2 = inputTxt.value + " variation 2"; // Another variation for the second request
+  const randomNumber1 = Math.random().toString(36).substring(7); // Generate a random string
+  const randomNumber2 = Math.random().toString(36).substring(7); // Another random string
 
+  const prompt1 = inputTxt.value + " variation " + randomNumber1; // Modify the prompt for first image
+  const prompt2 = inputTxt.value + " variation " + randomNumber2; // Modify the prompt for second image
+  
   const response1 = await query(modelId, prompt1); // Fetch the first image with the first prompt
   const response2 = await query(modelId, prompt2); // Fetch the second image with the second prompt
 
@@ -56,6 +59,6 @@ button.addEventListener("click", async function () {
   }
 });
 
-document.getElementById('resetBtn').addEventListener('click', function() {
+document.getElementById('resetBtn').addEventListener('click', function () {
   document.getElementById('input').value = '';
 });
