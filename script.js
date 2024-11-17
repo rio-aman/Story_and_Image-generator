@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Function to call AI API for story generation
   async function generateStoryWithAI(genre, length, name, place, enemyPlace, meetingPlace) {
-    const apiKey = "AIzaSyCI1NL5htAgGL9dFHXBiReIkdH-S_PLZHA";
+    const apiKey = "AIzaSyBt6p-LF61CwI7o4YbjY6ZDCXbiokj5zfY";
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
 
     const payload = {
